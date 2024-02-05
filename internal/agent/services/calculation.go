@@ -17,7 +17,7 @@ func startWorkers(max int, task chan []interface{}) {
 				}
 
 				ctx := context.Background()
-				config.RedisClient.Set(ctx, fmt.Sprintf("%s", v[1]), calRes, 0)
+				config.RedisClientA.Set(ctx, fmt.Sprintf("%s", v[1]), calRes, 0)
 			}
 		}()
 	}
