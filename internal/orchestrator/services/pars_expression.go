@@ -2,7 +2,6 @@ package services
 
 import (
 	"fmt"
-	"github.com/Knetic/govaluate"
 	"strings"
 	"sync"
 )
@@ -50,25 +49,4 @@ func findSubexpressions(expression string) []string {
 	}
 
 	return subexpressions
-}
-
-func calculation(data string) ([]string, error) {
-	fmt.Println(data)
-	res := make([]string, 2)
-	expression, err := govaluate.NewEvaluableExpression(data)
-	if err != nil {
-		fmt.Println("Ошибка при создании выражения:", err)
-		return nil, err
-	}
-
-	result, err := expression.Evaluate(nil)
-	if err != nil {
-		fmt.Println("Ошибка при вычислении выражения:", err)
-		return nil, err
-	}
-
-	res[0] = fmt.Sprintf("%v", result)
-	res[1] = data
-
-	return res, nil
 }
