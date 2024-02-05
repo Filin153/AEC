@@ -7,7 +7,7 @@ import (
 	"sync"
 )
 
-func start(val string) string {
+func Direct(val string) string {
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 
