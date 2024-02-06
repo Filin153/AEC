@@ -5,24 +5,18 @@ import (
 	"github.com/joho/godotenv"
 	"os"
 	"path/filepath"
-	"strconv"
-	"strings"
 )
 
 type config struct {
-	Worker       int
-	Redis_host   string
-	Redis_port   string
-	Port         string
-	Connect_to   []string
-	Сonnect_path string
-	I_host       string
+	Redis_host string
+	Redis_port string
+	Port       string
 }
 
 var Conf config
 
 func init() {
-	relativePath := "internal/agent/config/.env"
+	relativePath := "internal/orchestrator/config/.env"
 	currentDir, err := filepath.Abs(".")
 	if err != nil {
 		fmt.Println("Ошибка при получении текущей директории:", err)
@@ -36,11 +30,7 @@ func init() {
 		panic(err)
 	}
 
-	Conf.Worker, _ = strconv.Atoi(os.Getenv("worker"))
 	Conf.Redis_host = os.Getenv("redis_host")
 	Conf.Redis_port = os.Getenv("redis_port")
 	Conf.Port = os.Getenv("port")
-	Conf.I_host = os.Getenv("i_host")
-	Conf.Connect_to = strings.Split(os.Getenv("connect_to"), ",")
-	Conf.Сonnect_path = os.Getenv("connect_path")
 }

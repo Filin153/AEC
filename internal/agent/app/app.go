@@ -4,7 +4,7 @@ import (
 	"AEC/internal/agent/config"
 	"AEC/internal/agent/services"
 	"AEC/internal/agent/transport"
-	"context"
+	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -16,36 +16,15 @@ func Run() {
 	taskChan := make(chan []interface{})
 
 	go services.StartWorkers(config.Conf.Worker, taskChan)
-
-	go func() {
-		data := make([]interface{}, 2)
-		for {
-			keys, err := config.RedisClientQ.Keys(context.Background(), "*").Result()
-			if err != nil {
-				config.Log.Error(err)
-				continue
-			}
-
-			for _, key := range keys {
-				data[0] = key
-
-				val := config.RedisClientQ.Get(context.Background(), key)
-
-				data[1] = val.Val()
-
-				taskChan <- data
-
-				config.RedisClientQ.Del(context.Background(), key)
-
-			}
-		}
-	}()
+	go services.AddTask(taskChan)
+	go services.PING(config.Conf.Connect_to, config.Conf.Сonnect_path, config.Conf.I_host)
 
 	router := mux.NewRouter()
 
 	router.HandleFunc("/do", transport.AddCal).Methods("POST")
 
 	err := http.ListenAndServe(":"+config.Conf.Port, router)
+	fmt.Println("Server start - " + config.Conf.Port)
 
 	if err != nil {
 		config.Log.Error(err)

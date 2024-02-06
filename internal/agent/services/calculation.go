@@ -32,6 +32,30 @@ func StartWorkers(max int, task chan []interface{}) {
 	}
 }
 
+func AddTask(task chan []interface{}) {
+	data := make([]interface{}, 2)
+	for {
+		keys, err := config.RedisClientQ.Keys(context.Background(), "*").Result()
+		if err != nil {
+			config.Log.Error(err)
+			continue
+		}
+
+		for _, key := range keys {
+			data[0] = key
+
+			val := config.RedisClientQ.Get(context.Background(), key)
+
+			data[1] = val.Val()
+
+			task <- data
+
+			config.RedisClientQ.Del(context.Background(), key)
+
+		}
+	}
+}
+
 func calculation(data string) (AnswerData, error) {
 	expression, err := govaluate.NewEvaluableExpression(data)
 	if err != nil {
