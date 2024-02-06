@@ -11,6 +11,7 @@ import (
 type AnswerData struct {
 	Ex     string `json:"ex"`
 	Answer string `json:"answer"`
+	Err    string `json:"err"`
 }
 
 func StartWorkers(max int, task chan []interface{}) {
@@ -25,7 +26,7 @@ func StartWorkers(max int, task chan []interface{}) {
 				data, _ := json.Marshal(calRes)
 				info := config.RedisClientA.Set(context.Background(), fmt.Sprintf("%s", v[0]), data, 0)
 				if info.Err() != nil {
-					fmt.Println(info.Err())
+					config.Log.Error(info.Err())
 				}
 			}
 		}()
@@ -57,22 +58,23 @@ func AddTask(task chan []interface{}) {
 }
 
 func calculation(data string) (AnswerData, error) {
+	a := AnswerData{}
 	expression, err := govaluate.NewEvaluableExpression(data)
 	if err != nil {
-		fmt.Println("Ошибка при создании выражения:", err)
-		return AnswerData{}, err
+		config.Log.WithField("err", "Ошибка при создании выражения").Error(err)
+		a.Err = fmt.Sprintf("%v", err)
+		return a, err
 	}
 
 	result, err := expression.Evaluate(nil)
 	if err != nil {
-		fmt.Println("Ошибка при вычислении выражения:", err)
-		return AnswerData{}, err
+		config.Log.WithField("err", "Ошибка при вычислении выражения").Error(err)
+		a.Err = fmt.Sprintf("%v", err)
+		return a, err
 	}
 
-	answer := AnswerData{
-		Ex:     data,
-		Answer: fmt.Sprintf("%v", result),
-	}
+	a.Ex = data
+	a.Answer = fmt.Sprintf("%v", result)
 
-	return answer, nil
+	return a, nil
 }

@@ -21,7 +21,7 @@ func Run() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/do", transport.AddCal).Methods("POST")
+	router.HandleFunc("/", transport.AddCal).Methods("POST")
 
 	err := http.ListenAndServe(":"+config.Conf.Port, router)
 	fmt.Println("Server start - " + config.Conf.Port)

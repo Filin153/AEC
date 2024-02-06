@@ -4,6 +4,7 @@ import (
 	"AEC/internal/orchestrator/config"
 	"AEC/internal/orchestrator/services"
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -14,8 +15,17 @@ type answer struct {
 }
 
 func Connect(w http.ResponseWriter, r *http.Request) {
-	fromURL := services.GetClientIP(r)
 	a := answer{}
+
+	fromURL := services.GetClientIP(r)
+	if fromURL == "" {
+		a.Err = errors.New("Не удалось получить хост")
+		a.Info = "Хост передается в Header X-Forwarded-For"
+		data, _ := json.Marshal(a)
+		w.Write(data)
+		return
+	}
+
 	err := services.AddServer(services.HashSome(fromURL), fromURL)
 	if err != nil {
 		w.WriteHeader(400)

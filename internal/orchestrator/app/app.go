@@ -10,6 +10,8 @@ import (
 )
 
 func Run() {
+	defer config.RedisClient.Close()
+
 	go services.CheckServer()
 
 	router := mux.NewRouter()
@@ -17,6 +19,7 @@ func Run() {
 	router.HandleFunc("/server/newcon", transport.Connect).Methods("POST")
 	router.HandleFunc("/server/all", transport.AllServ).Methods("GET")
 	router.HandleFunc("/server/del", transport.DeleteServer).Methods("DELETE")
+	router.HandleFunc("/", transport.Calc).Methods("POST")
 
 	err := http.ListenAndServe(":"+config.Conf.Port, router)
 	fmt.Println("Server start - " + config.Conf.Port)

@@ -33,4 +33,6 @@ func init() {
 	Conf.Redis_host = os.Getenv("redis_host")
 	Conf.Redis_port = os.Getenv("redis_port")
 	Conf.Port = os.Getenv("port")
+
+	fmt.Println(Conf)
 }

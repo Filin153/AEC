@@ -43,4 +43,6 @@ func init() {
 	Conf.I_host = os.Getenv("i_host")
 	Conf.Connect_to = strings.Split(os.Getenv("connect_to"), ",")
 	Conf.Сonnect_path = os.Getenv("connect_path")
+
+	fmt.Println(Conf)
 }

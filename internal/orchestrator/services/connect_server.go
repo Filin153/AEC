@@ -5,6 +5,8 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"fmt"
+	"golang.org/x/text/encoding/unicode"
 	"net/http"
 	"time"
 )
@@ -31,40 +33,43 @@ func serverToRedis(s Server) error {
 }
 
 func RemoveServerFromRedis(id string) error {
-	info1 := config.RedisClient.Del(context.Background(), id)
-	if info1.Err() != nil {
-		config.Log.Error(info1.Err())
-		return info1.Err()
+	_, err := config.RedisClient.Del(context.Background(), id).Result()
+	if err != nil {
+		config.Log.Error(err)
+		return err
 	}
 
 	return nil
 }
 
 func HashSome(val string) string {
+	utf8Encoder := unicode.UTF8.NewEncoder()
+
+	// Преобразование строки в UTF-8
+	utf8Bytes, _ := utf8Encoder.Bytes([]byte(val))
+
+	// Генерация SHA-256 хеша
 	hasher := sha256.New()
-	hasher.Write([]byte(val))
+	hasher.Write(utf8Bytes)
 	hashInBytes := hasher.Sum(nil)
-	return string(hashInBytes)
+
+	// Преобразование байтов хеша в строку
+	hashString := fmt.Sprintf("%x", hashInBytes)
+
+	return hashString
 }
 
 func GetClientIP(r *http.Request) string {
-	// В реальном приложении, возможно, вам захочется учесть возможность, что X-Forwarded-For может содержать несколько IP-адресов.
-	// Также следует учесть, что значение X-Forwarded-For может быть легко поддельно.
-	// Ваша реализация может варьироваться в зависимости от конкретных требований вашего приложения.
-
-	// Попытка получить IP-адрес из заголовка X-Forwarded-For
 	ip := r.Header.Get("X-Forwarded-For")
 	if ip != "" {
 		return ip
 	}
-
-	// Если X-Forwarded-For отсутствует, используем RemoteAddr
-	return r.RemoteAddr
+	return ""
 }
 
 func AddServer(id, URL string) error {
 
-	info := config.RedisClient.Get(context.Background(), URL)
+	info := config.RedisClient.Get(context.Background(), id)
 
 	dataByte, _ := info.Bytes()
 	if len(dataByte) > 0 {
@@ -82,6 +87,7 @@ func AddServer(id, URL string) error {
 			return err
 		}
 
+		config.Log.Info("update connect server " + URL)
 		return nil
 	}
 
@@ -97,6 +103,7 @@ func AddServer(id, URL string) error {
 		return err
 	}
 
+	config.Log.Info("connect new server " + URL)
 	return nil
 }
 
@@ -114,7 +121,10 @@ func AllServer() []Server {
 		dataByte, _ := info.Bytes()
 
 		var Serv Server
-		json.Unmarshal(dataByte, &Serv)
+		err = json.Unmarshal(dataByte, &Serv)
+		if err != nil {
+			config.Log.Error(err)
+		}
 		allS = append(allS, Serv)
 	}
 
