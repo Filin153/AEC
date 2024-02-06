@@ -4,7 +4,6 @@ import (
 	"AEC/internal/agent/config"
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -13,7 +12,7 @@ type JSONdata struct {
 	Task string `json:"task"`
 }
 
-func addCal(w http.ResponseWriter, r *http.Request) {
+func AddCal(w http.ResponseWriter, r *http.Request) {
 	data := &JSONdata{}
 	err := json.NewDecoder(r.Body).Decode(data)
 	if err != nil {
@@ -24,17 +23,21 @@ func addCal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx := context.Background()
-	config.RedisClientQ.Set(ctx, data.Id, data.Task, 0)
+	config.RedisClientQ.Set(context.Background(), data.Id, data.Task, 0)
 
-	go func(id string, ww http.ResponseWriter) {
+	res := make(chan []byte)
+	go func(id string) {
+		defer close(res)
 		for {
-			answer := config.RedisClientA.Get(ctx, id)
-			if answer != nil {
-				ww.WriteHeader(200)
-				ww.Write([]byte(fmt.Sprintf("%s", answer)))
+			answer := config.RedisClientA.Get(context.Background(), id)
+			if answer.Err() == nil && answer.Val() != "" {
+				dataA, _ := answer.Bytes()
+				res <- dataA
+				config.RedisClientA.Del(context.Background(), id)
 				return
 			}
 		}
-	}(data.Id, w)
+	}(data.Id)
+
+	w.Write(<-res)
 }

@@ -1,0 +1,30 @@
+{"level":"error","msg":"EOF","time":"2024-02-06T14:31:20+03:00"}
+{"level":"error","msg":"invalid character '}' looking for beginning of object key string","time":"2024-02-06T14:32:04+03:00"}
+{"level":"error","msg":"dial tcp :0: connectex: The requested address is not valid in its context.","time":"2024-02-06T14:54:24+03:00"}
+{"level":"error","msg":"dial tcp :0: connectex: The requested address is not valid in its context.","time":"2024-02-06T14:54:58+03:00"}
+{"level":"error","msg":"dial tcp :0: connectex: The requested address is not valid in its context.","time":"2024-02-06T14:55:49+03:00"}
+{"level":"error","msg":"dial tcp :0: connectex: The requested address is not valid in its context.","time":"2024-02-06T14:56:05+03:00"}
+{"level":"error","msg":"redis: can't marshal []string (implement encoding.BinaryMarshaler)","time":"2024-02-06T16:00:44+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:02:14+03:00"}
+{"level":"error","msg":"redis: can't marshal []string (implement encoding.BinaryMarshaler)","time":"2024-02-06T16:02:39+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:02:51+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:03:41+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:05:34+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:23:32+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:24:19+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:25:26+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:25:57+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:28:07+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:28:20+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:29:22+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:29:52+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:30:34+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:31:10+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:31:57+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:33:01+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:33:33+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:34:13+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:36:19+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:36:58+03:00"}
+{"level":"error","msg":"invalid character 'i' looking for beginning of value","time":"2024-02-06T16:40:07+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-06T16:41:43+03:00"}
