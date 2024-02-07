@@ -2,10 +2,13 @@ package services
 
 import (
 	"AEC/internal/agent/config"
+	"AEC/internal/agent/database"
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/Knetic/govaluate"
+	"strings"
+	"time"
 )
 
 type AnswerData struct {
@@ -14,27 +17,45 @@ type AnswerData struct {
 	Err    string `json:"err"`
 }
 
-func StartWorkers(max int, task chan []interface{}) {
+type JSONdata struct {
+	Id       string        `json:"id"`
+	Task     string        `json:"task"`
+	WaitTime time.Duration `json:"wait_time"`
+}
+
+func StartWorkers(max int, task chan []byte) {
 	for i := 0; i < max; i++ {
 		go func() {
+			var data = &JSONdata{}
 			for v := range task {
-				calRes, err := calculation(fmt.Sprintf("%s", v[1]))
+				json.Unmarshal(v, data)
+				config.Log.Info("Start do - " + data.Task)
+
+				calRes, err := calculation(fmt.Sprintf("%s", data.Task))
 				if err != nil {
 					config.Log.Error(err)
 				}
 
-				data, _ := json.Marshal(calRes)
-				info := config.RedisClientA.Set(context.Background(), fmt.Sprintf("%s", v[0]), data, 0)
-				if info.Err() != nil {
-					config.Log.Error(info.Err())
-				}
+				config.Log.Debug(data.WaitTime)
+				time.Sleep(data.WaitTime)
+				go database.UpdateCalRes(fmt.Sprintf("%v", data.Id), calRes.Ex, calRes.Answer, calRes.Err)
+
 			}
 		}()
 	}
 }
 
-func AddTask(task chan []interface{}) {
-	data := make([]interface{}, 2)
+func GetWaitTime(val string, add, sub, mult, dev int) time.Duration {
+	res := 0
+	res += strings.Count(val, "+") * add
+	res += strings.Count(val, "-") * sub
+	res += strings.Count(val, "*") * mult
+	res += strings.Count(val, "/") * dev
+
+	return time.Duration(res) * time.Second
+}
+
+func AddTask(task chan []byte) {
 	for {
 		keys, err := config.RedisClientQ.Keys(context.Background(), "*").Result()
 		if err != nil {
@@ -43,16 +64,24 @@ func AddTask(task chan []interface{}) {
 		}
 
 		for _, key := range keys {
-			data[0] = key
-
 			val := config.RedisClientQ.Get(context.Background(), key)
+			if val.Err() != nil {
+				config.Log.Error(val.Err())
+				continue
+			}
+			jsonByte, err1 := val.Bytes()
+			if err1 != nil {
+				config.Log.Error(err)
+				continue
+			}
 
-			data[1] = val.Val()
-
-			task <- data
-
-			config.RedisClientQ.Del(context.Background(), key)
-
+			config.Log.Debug()
+			task <- jsonByte
+			err = config.RedisClientQ.Del(context.Background(), key).Err()
+			if err != nil {
+				config.Log.Error(err)
+				continue
+			}
 		}
 	}
 }

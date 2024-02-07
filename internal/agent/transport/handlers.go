@@ -2,18 +2,15 @@ package transport
 
 import (
 	"AEC/internal/agent/config"
+	"AEC/internal/agent/database"
+	"AEC/internal/agent/services"
 	"context"
 	"encoding/json"
 	"net/http"
 )
 
-type JSONdata struct {
-	Id   string `json:"id"`
-	Task string `json:"task"`
-}
-
 func AddCal(w http.ResponseWriter, r *http.Request) {
-	data := &JSONdata{}
+	data := &services.JSONdata{}
 	err := json.NewDecoder(r.Body).Decode(data)
 	if err != nil {
 		config.Log.Error(err)
@@ -23,21 +20,19 @@ func AddCal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	config.RedisClientQ.Set(context.Background(), data.Id, data.Task, 0)
+	if _, ok := database.GetCalRes(data.Id); !ok {
+		go database.AddCalRes(data.Id, data.Task, int(data.WaitTime.Seconds()))
 
-	res := make(chan []byte)
-	go func(id string) {
-		defer close(res)
-		for {
-			answer := config.RedisClientA.Get(context.Background(), id)
-			if answer.Err() == nil && answer.Val() != "" {
-				dataA, _ := answer.Bytes()
-				res <- dataA
-				config.RedisClientA.Del(context.Background(), id)
-				return
-			}
+		jsonByte, errJson := json.Marshal(data)
+		if errJson != nil {
+			config.Log.Error(err)
+			return
 		}
-	}(data.Id)
-
-	w.Write(<-res)
+		err = config.RedisClientQ.Set(context.Background(), data.Id, jsonByte, 0).Err()
+		if err != nil {
+			config.Log.Error(err)
+			return
+		}
+		config.Log.Info("Add task - " + data.Task)
+	}
 }

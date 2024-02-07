@@ -17,6 +17,10 @@ type config struct {
 	Connect_to   []string
 	Сonnect_path string
 	I_host       string
+	DbUsername   string
+	DbPassword   string
+	DbName       string
+	DbHost       string
 }
 
 var Conf config
@@ -25,7 +29,7 @@ func init() {
 	relativePath := "internal/agent/config/.env"
 	currentDir, err := filepath.Abs(".")
 	if err != nil {
-		fmt.Println("Ошибка при получении текущей директории:", err)
+		Log.WithField("err", "Ошибка при получении текущей директории").Error(err)
 		return
 	}
 	absolutePath := filepath.Join(currentDir, relativePath)
@@ -43,6 +47,10 @@ func init() {
 	Conf.I_host = os.Getenv("i_host")
 	Conf.Connect_to = strings.Split(os.Getenv("connect_to"), ",")
 	Conf.Сonnect_path = os.Getenv("connect_path")
+	Conf.DbUsername = os.Getenv("db_user")
+	Conf.DbPassword = os.Getenv("db_pass")
+	Conf.DbName = os.Getenv("db_name")
+	Conf.DbHost = os.Getenv("db_host")
 
 	fmt.Println(Conf)
 }

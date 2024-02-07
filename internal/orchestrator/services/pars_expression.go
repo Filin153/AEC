@@ -8,17 +8,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"math/rand"
 	"net/http"
 	"regexp"
-	"strconv"
 	"strings"
 	"time"
 )
 
 type dataForReq struct {
-	Id   string `json:"id"`
-	Task string `json:"task"`
+	Id       string        `json:"id"`
+	Task     string        `json:"task"`
+	WaitTime time.Duration `json:"wait_time"`
 }
 
 func shuffleSlice(input []string) {
@@ -37,6 +38,15 @@ func shuffleSlice(input []string) {
 func containsLetters(input string) bool {
 	re := regexp.MustCompile("[a-zA-Z]")
 	return re.MatchString(input)
+}
+
+func removeFromSlice(sl []string, id int) []string {
+	if id >= 0 && id < len(sl) {
+		sl = append(sl[:id], sl[id+1:]...)
+	} else {
+		fmt.Println("Index out of bounds")
+	}
+	return sl
 }
 
 func getRandomServer() (Server, error) {
@@ -64,11 +74,12 @@ func getRandomServer() (Server, error) {
 	return Server{}, errors.New("Нету доступных серверов")
 }
 
-func requestToCalculation(serv Server, subst string, idPrefix int) (map[string]interface{}, error) {
+func requestToCalculation(serv Server, subst string, add, sub, mult, div int) (map[string]interface{}, error) {
 	var data dataForReq
 
-	data.Id = HashSome(subst) + "_" + strconv.Itoa(idPrefix)
+	data.Id = HashSome(subst)
 	data.Task = subst
+	data.WaitTime = GetWaitTime(subst, add, sub, mult, div)
 
 	jsonData, err := json.Marshal(data)
 	if err != nil {
@@ -101,10 +112,41 @@ func requestToCalculation(serv Server, subst string, idPrefix int) (map[string]i
 	return answer, nil
 }
 
-func Direct(val, id string) (string, error) {
+func takeCalRes(ids []string, val string) ([]string, string, int, string) {
+	needTime := 0
+	for {
+		if len(ids) == 0 {
+			break
+		}
+		for i, vid := range ids {
+			if calRes, ok := database.GetCalRes(vid); ok && calRes.Res != "" {
+				if calRes.Err != "" {
+					return []string{}, "", 0, calRes.Err
+				}
+				val = strings.Replace(val, calRes.Expression, calRes.Res, 1)
+				ids = removeFromSlice(ids, i)
+				needTime += calRes.ToDoTime
+				config.Log.WithFields(logrus.Fields{
+					"val":        val,
+					"Expression": calRes.Expression,
+					"Res":        calRes.Res,
+					"AllId":      ids,
+				}).Info("OK")
+			}
+		}
+		time.Sleep(time.Second)
+	}
+
+	return ids, val, needTime, ""
+}
+
+func Direct(val, id string, add, sub, mult, div int) (string, error) {
+	tempVal := val
+	resTime := 0
+
 	if containsLetters(val) {
 		config.Log.WithField("ex", val).Error("Выражение содержит буквы")
-		go database.UpdateTask(id, "", "", false, "Выражение содержит буквы")
+		go database.UpdateTask(id, "", "", false, "Выражение содержит буквы", 0)
 		return "", errors.New("Выражение содержит буквы")
 	}
 
@@ -114,34 +156,31 @@ func Direct(val, id string) (string, error) {
 		return "", err
 	}
 
-	for i, subexpression := range findSubexpressions(val) {
-		calRes, err1 := requestToCalculation(trueServ, subexpression, i)
-		if err1 != nil {
-			config.Log.Error(err1)
-			go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", err))
-			return "", err1
-		} else if calRes["err"] != "" {
-			config.Log.Error(calRes["err"])
-			go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", calRes["err"]))
-			return "", err
-		}
-		val = strings.Replace(val, fmt.Sprintf("%v", calRes["ex"]), fmt.Sprintf("%v", calRes["answer"]), 1)
+	allId := []string{}
+	for _, subexpression := range findSubexpressions(val) {
+		go requestToCalculation(trueServ, subexpression, add, sub, mult, div)
+		allId = append(allId, HashSome(subexpression))
 	}
 
-	calRes, err := requestToCalculation(trueServ, val, 0)
-	if err != nil {
-		config.Log.Error(err)
-		go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", err))
-		return "", err
-	} else if calRes["err"] != "" {
-		config.Log.Error(calRes["err"])
-		go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", calRes["err"]))
-		return "", err
+	allId, val, resTime, err1 := takeCalRes(allId, val)
+	if err1 != "" {
+		go database.UpdateTask(id, "", "", false, err1, 0)
+		config.Log.Error(err1)
+		return "", errors.New(err1)
 	}
-	val = strings.Replace(val, fmt.Sprintf("%v", calRes["ex"]), fmt.Sprintf("%v", calRes["answer"]), 1)
+	go requestToCalculation(trueServ, val, add, sub, mult, div)
+	allId = append(allId, HashSome(val))
+	_, val, tempTime, err1 := takeCalRes(allId, val)
+	if err1 != "" {
+		go database.UpdateTask(id, "", "", false, err1, 0)
+		config.Log.Error(err1)
+		return "", errors.New(err1)
+	}
 
-	go database.UpdateTask(id, "", val, true, "")
+	resTime += tempTime
+	go database.UpdateTask(id, "", val, true, "", resTime)
 
+	config.Log.Info("Готово - ", tempVal)
 	return val, nil
 }
 
@@ -169,8 +208,12 @@ func findSubexpressions(expression string) []string {
 	return subexpressions
 }
 
-func AddCompToBD() {
-	for {
+func GetWaitTime(val string, add, sub, mult, dev int) time.Duration {
+	res := 0
+	res += strings.Count(val, "+") * add
+	res += strings.Count(val, "-") * sub
+	res += strings.Count(val, "*") * mult
+	res += strings.Count(val, "/") * dev
 
-	}
+	return time.Duration(res) * time.Second
 }

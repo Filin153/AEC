@@ -4,7 +4,9 @@ import (
 	"AEC/internal/orchestrator/database"
 	"AEC/internal/orchestrator/services"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -31,8 +33,23 @@ func Calc(w http.ResponseWriter, r *http.Request) {
 		userId = data["user_id"]
 	}
 
-	go services.Direct(data["task"], reqId)
-	go database.AddTask(data["task"], reqId, userId)
+	add, _ := strconv.Atoi(fmt.Sprintf("%v", data["add_time"]))
+	sub, _ := strconv.Atoi(fmt.Sprintf("%v", data["sub_time"]))
+	mult, _ := strconv.Atoi(fmt.Sprintf("%v", data["mult_time"]))
+	dev, _ := strconv.Atoi(fmt.Sprintf("%v", data["dev_time"]))
 
-	w.Write([]byte(userId))
+	if _, ok := database.GetTask(reqId); !ok {
+		go services.Direct(data["task"], reqId, add, sub, mult, dev)
+		go database.AddTask(data["task"], reqId, userId)
+	} else {
+		go database.UpdateTask(reqId, userId, "", false, "", -1)
+	}
+
+	a.Data = map[string]string{
+		"reqID":  reqId,
+		"userID": userId,
+	}
+
+	jsonResp, _ := json.Marshal(a)
+	w.Write(jsonResp)
 }

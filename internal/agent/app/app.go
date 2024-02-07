@@ -11,9 +11,8 @@ import (
 
 func Run() {
 	defer config.RedisClientQ.Close()
-	defer config.RedisClientA.Close()
 
-	taskChan := make(chan []interface{})
+	taskChan := make(chan []byte)
 
 	go services.StartWorkers(config.Conf.Worker, taskChan)
 	go services.AddTask(taskChan)
