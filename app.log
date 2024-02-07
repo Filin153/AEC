@@ -882,3 +882,207 @@
 {"level":"error","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:20:07+03:00"}
 {"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:20:33+03:00"}
 {"level":"error","msg":"Post \"http://localhost:9999/server/newcon\": dial tcp [::1]:9999: connectex: No connection could be made because the target machine actively refused it.","time":"2024-02-07T02:21:03+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:23:32+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:23:32+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:23:32+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-07T02:23:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:23:36+03:00"}
+{"ex":"2 + 2 -p","level":"error","msg":"Выражение содержит буквы","time":"2024-02-07T02:23:42+03:00"}
+{"level":"error","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:23:42+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:24:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:24:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:25:06+03:00"}
+{"level":"error","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:25:20+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:25:36+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:26:00+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:26:00+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:26:00+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:26:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:26:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:27:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:27:36+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:27:46+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:27:46+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:27:47+03:00"}
+{"level":"error","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:27:48+03:00"}
+{"level":"error","msg":"Post \"http://localhost:9999/server/newcon\": dial tcp [::1]:9999: connectex: No connection could be made because the target machine actively refused it.","time":"2024-02-07T02:28:06+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:28:06+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:28:06+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:28:06+03:00"}
+{"level":"error","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:28:07+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:28:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:29:06+03:00"}
+{"level":"error","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:29:09+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:29:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:30:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:30:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:31:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:31:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:32:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:32:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:33:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:33:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:34:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:34:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:35:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:35:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:36:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:36:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:37:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:37:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:38:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:38:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:39:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:39:36+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:40:06+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:40:50+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:40:50+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:40:50+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-07T02:40:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:40:53+03:00"}
+{"level":"error","msg":"\u0026{0xc000094120 sql: Scan error on column index 6, name \"user_id\": unsupported Scan, storing driver.Value type string into type *[]string 1 0xc0000c4380 0}","time":"2024-02-07T02:41:00+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:41:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:41:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:42:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:42:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:43:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:43:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:44:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:44:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:45:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:45:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:46:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:46:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:47:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:47:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:48:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:48:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:49:23+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:49:40+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:49:40+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:49:41+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc00053a000 0}","time":"2024-02-07T02:49:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:49:53+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:50:07+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002ea540 0}","time":"2024-02-07T02:50:07+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002cc000 0}","time":"2024-02-07T02:50:07+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:50:23+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:50:28+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002ea540 0}","time":"2024-02-07T02:50:28+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002cc000 0}","time":"2024-02-07T02:50:28+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:50:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:51:23+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:51:53+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:52:23+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:52:51+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:52:51+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:52:51+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:52:53+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:52:57+03:00"}
+{"level":"error","msg":"\u0026{0xc000126120 \u003cnil\u003e 1 0xc000162540 0}","time":"2024-02-07T02:52:57+03:00"}
+{"level":"error","msg":"\u0026{0xc000126120 \u003cnil\u003e 1 0xc0002f0000 0}","time":"2024-02-07T02:52:57+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:53:26+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:53:26+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:53:27+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-07T02:53:29+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:53:29+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:53:59+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:54:08+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:54:08+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:54:08+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:54:36+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:54:36+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:54:36+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:55:44+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:55:44+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:55:44+03:00"}
+{"level":"info","msg":"SetOutput OK","time":"2024-02-07T02:55:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:55:45+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002ea540 0}","time":"2024-02-07T02:55:51+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:56:00+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002ea540 0}","time":"2024-02-07T02:56:00+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0001aa000 0}","time":"2024-02-07T02:56:00+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:56:15+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:56:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:57:15+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:57:31+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002ea540 0}","time":"2024-02-07T02:57:31+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc000448000 0}","time":"2024-02-07T02:57:31+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:57:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:58:15+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:58:23+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:58:23+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:58:23+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:58:24+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc00016c000 0}","time":"2024-02-07T02:58:24+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc00016c1c0 0}","time":"2024-02-07T02:58:24+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:58:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:59:15+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T02:59:42+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T02:59:42+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T02:59:42+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T02:59:43+03:00"}
+{"level":"error","msg":"\u0026{0xc0001e86c0 \u003cnil\u003e 1 0xc000528000 0}","time":"2024-02-07T02:59:43+03:00"}
+{"level":"error","msg":"\u0026{0xc0001e86c0 \u003cnil\u003e 1 0xc0002fa1c0 0}","time":"2024-02-07T02:59:43+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T02:59:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:00:15+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:00:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:01:15+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:01:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:02:15+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T03:02:30+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T03:02:30+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T03:02:30+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:02:34+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc0002ec540 0}","time":"2024-02-07T03:02:34+03:00"}
+{"level":"error","msg":"\u0026{0xc0002a8120 \u003cnil\u003e 1 0xc000174000 0}","time":"2024-02-07T03:02:34+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:02:45+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T03:03:15+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T03:03:15+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T03:03:15+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:03:15+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:03:17+03:00"}
+{"level":"error","msg":"\u0026{0xc0001e86c0 \u003cnil\u003e 1 0xc000246540 0}","time":"2024-02-07T03:03:17+03:00"}
+{"level":"error","msg":"\u0026{0xc0001e86c0 \u003cnil\u003e 1 0xc000246700 0}","time":"2024-02-07T03:03:17+03:00"}
+{"level":"error","msg":"Post \"http://localhost:9999/server/newcon\": dial tcp [::1]:9999: connectex: No connection could be made because the target machine actively refused it.","time":"2024-02-07T03:03:45+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T03:03:46+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T03:03:47+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T03:03:47+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:03:47+03:00"}
+{"level":"error","msg":"\u0026{0xc0000c8630 \u003cnil\u003e 1 0xc000246540 0}","time":"2024-02-07T03:03:47+03:00"}
+{"level":"error","msg":"\u0026{0xc0000c8630 \u003cnil\u003e 1 0xc000130000 0}","time":"2024-02-07T03:03:47+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:04:15+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:04:45+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T03:05:05+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T03:05:05+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T03:05:05+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:05:06+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:05:15+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:05:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:06:15+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:06:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:07:15+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:07:22+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:07:45+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:08:16+03:00"}
+{"level":"error","msg":"Post \"http://localhost:9999/server/newcon\": dial tcp [::1]:9999: connectex: No connection could be made because the target machine actively refused it.","time":"2024-02-07T03:08:46+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T03:08:47+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T03:08:47+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T03:08:47+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:09:01+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:09:02+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:09:16+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T03:09:29+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T03:09:29+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T03:09:29+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:09:46+03:00"}
+{"level":"error","msg":"open .env: The system cannot find the file specified.","time":"2024-02-07T03:09:58+03:00"}
+{"level":"info","msg":"connected to DB successful","time":"2024-02-07T03:09:58+03:00"}
+{"level":"info","msg":"AutoMigrate successful","time":"2024-02-07T03:09:58+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:10:05+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:10:10+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:10:11+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:10:16+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:10:26+03:00"}
+{"level":"warning","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"uni_tasks_req_id\" (SQLSTATE 23505)","time":"2024-02-07T03:10:39+03:00"}
+{"level":"info","msg":"update connect server http://localhost:8080/","time":"2024-02-07T03:10:46+03:00"}

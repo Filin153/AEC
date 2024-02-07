@@ -104,7 +104,7 @@ func requestToCalculation(serv Server, subst string, idPrefix int) (map[string]i
 func Direct(val, id string) (string, error) {
 	if containsLetters(val) {
 		config.Log.WithField("ex", val).Error("Выражение содержит буквы")
-		go database.UpdateTask(id, "", false, "Выражение содержит буквы")
+		go database.UpdateTask(id, "", "", false, "Выражение содержит буквы")
 		return "", errors.New("Выражение содержит буквы")
 	}
 
@@ -118,11 +118,11 @@ func Direct(val, id string) (string, error) {
 		calRes, err1 := requestToCalculation(trueServ, subexpression, i)
 		if err1 != nil {
 			config.Log.Error(err1)
-			go database.UpdateTask(id, "", false, fmt.Sprintf("%v", err))
+			go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", err))
 			return "", err1
 		} else if calRes["err"] != "" {
 			config.Log.Error(calRes["err"])
-			go database.UpdateTask(id, "", false, fmt.Sprintf("%v", calRes["err"]))
+			go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", calRes["err"]))
 			return "", err
 		}
 		val = strings.Replace(val, fmt.Sprintf("%v", calRes["ex"]), fmt.Sprintf("%v", calRes["answer"]), 1)
@@ -131,16 +131,16 @@ func Direct(val, id string) (string, error) {
 	calRes, err := requestToCalculation(trueServ, val, 0)
 	if err != nil {
 		config.Log.Error(err)
-		go database.UpdateTask(id, "", false, fmt.Sprintf("%v", err))
+		go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", err))
 		return "", err
 	} else if calRes["err"] != "" {
 		config.Log.Error(calRes["err"])
-		go database.UpdateTask(id, "", false, fmt.Sprintf("%v", calRes["err"]))
+		go database.UpdateTask(id, "", "", false, fmt.Sprintf("%v", calRes["err"]))
 		return "", err
 	}
 	val = strings.Replace(val, fmt.Sprintf("%v", calRes["ex"]), fmt.Sprintf("%v", calRes["answer"]), 1)
 
-	go database.UpdateTask(id, val, true, "")
+	go database.UpdateTask(id, "", val, true, "")
 
 	return val, nil
 }

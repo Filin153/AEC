@@ -4,6 +4,7 @@ import (
 	"AEC/internal/orchestrator/config"
 	"AEC/internal/orchestrator/models"
 	"gorm.io/gorm"
+	"slices"
 )
 
 func AddTask(ex, req_id, user_id string) {
@@ -19,24 +20,41 @@ func AddTask(ex, req_id, user_id string) {
 
 	res := db.Create(&task)
 	if res.Error != nil {
-		config.Log.Error(res.Error)
+		config.Log.Warn(res.Error)
+		UpdateTask(req_id, user_id, "", false, "")
 	}
 }
 
-func UpdateTask(id string, res string, status bool, err string) {
-	model := db.Model(&models.Task{}).Where("req_id = ?", id)
+func UpdateTask(reqId, user_id, res string, status bool, err string) {
+	var task models.Task
+	if err := db.First(&task, "req_id = ?", reqId).Error; err != nil {
+		config.Log.Error(err)
+		return
+	}
 
 	if status != false {
-		model.Update("status", status)
+		task.Status = status
+	}
 
+	if user_id != "" {
+		tmp := task.GetUserIDs()
+		if !slices.Contains(tmp, user_id) {
+			tmp = append(tmp, user_id)
+		}
+		task.SetUserIDs(tmp)
 	}
 
 	if res != "" {
-		model.Update("res", res)
+		task.Res = res
 	}
 
 	if err != "" {
-		model.Update("err", err)
+		task.Err = err
+	}
+
+	if err := db.Save(&task).Error; err != nil {
+		config.Log.Error(err)
+		return
 	}
 
 }
@@ -52,12 +70,13 @@ func GetAllTask(user_id string) []models.Task {
 	db.Model(&models.Task{}).Where("user_id = ?", user_id).Find(&tasks)
 	return tasks
 }
-func FindUser(user_id string) bool {
-	var task models.Task
-	db.Model(&models.Task{}).Where("user_id = ?", user_id).First(&task)
-	if task.User_id != "" {
-		return true
-	}
 
-	return false
-}
+//func FindUser(user_id string) bool {
+//	var task models.Task
+//	db.Model(&models.Task{}).Where("user_id = ?", user_id).First(&task)
+//	if task.User_id != "" {
+//		return true
+//	}
+//
+//	return false
+//}

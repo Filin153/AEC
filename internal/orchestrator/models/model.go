@@ -1,13 +1,24 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"strings"
+)
 
 type Task struct {
 	gorm.Model
 	Expression string `gorm:"type:varchar(500)"`
 	Req_id     string `gorm:"type:varchar(65);unique"` // Хэш выражения
-	User_id    string `gorm:"type:varchar(65)"`        // Хэш времени
+	User_id    string `gorm:"type:string"`             // Хэш времени
 	Status     bool   `gorm:"default:false"`
 	Res        string `gorm:"type:string"`
 	Err        string `gorm:"type:string"`
+}
+
+func (t *Task) GetUserIDs() []string {
+	return strings.Split(t.User_id, ",")
+}
+
+func (t *Task) SetUserIDs(userIDs []string) {
+	t.User_id = strings.Join(userIDs, ",")
 }
