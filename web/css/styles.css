@@ -1,0 +1,63 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#container {
+    text-align: center;
+}
+
+#inputField {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#dataInput {
+    margin-right: 10px;
+}
+
+#responseBlocks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.responseBlock {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 5px;
+    width: 300px;
+    text-align: left;
+}
+
+.responseBlock p {
+    margin: 5px 0;
+}
+
+#inputFieldsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.inputField {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.inputField label {
+    margin-right: 10px;
+}
+
+.inputField input {
+    margin-right: 10px;
+}

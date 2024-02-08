@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отправка данных на сервер</title>
+    <link rel="stylesheet" href="http://localhost:80/css/styles.css">
+</head>
+<body>
+<div id="container">
+    <p>Время в секундах</p>
+    <div id="inputFieldsContainer">
+        <div class="inputField" id="add">
+            <label for="number1" content="1">+</label>
+            <input type="text" id="number1" placeholder="Введите">
+        </div>
+        <div class="inputField" id="sub">
+            <label for="number1" content="1">-</label>
+            <input type="text" id="number2" placeholder="Введите">
+        </div>
+        <div class="inputField" id="mult">
+            <label for="number1" content="1">*</label>
+            <input type="text" id="number3" placeholder="Введите">
+        </div>
+        <div class="inputField" id="dev">
+            <label for="number1" content="1">/</label>
+            <input type="text" id="number4" placeholder="Введите">
+        </div>
+    </div>
+
+    <div id="inputField">
+        <input type="text" id="dataInput" placeholder="Введите пример">
+        <button onclick="sendData()">Решить</button>
+    </div>
+
+    <div id="responseBlocks"></div>
+</div>
+<script src="http://localhost:80/js/script.js"> </script>
+</body>
+</html>

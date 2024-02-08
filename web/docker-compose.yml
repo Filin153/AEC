@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    container_name: my_nginx_container
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/var/www/html:ro
+      - ./css:/var/www/css:ro
+      - ./js:/var/www/js:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: always
