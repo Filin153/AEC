@@ -45,15 +45,12 @@ func RemoveServerFromRedis(id string) error {
 func HashSome(val string) string {
 	utf8Encoder := unicode.UTF8.NewEncoder()
 
-	// Преобразование строки в UTF-8
 	utf8Bytes, _ := utf8Encoder.Bytes([]byte(val))
 
-	// Генерация SHA-256 хеша
 	hasher := sha256.New()
 	hasher.Write(utf8Bytes)
 	hashInBytes := hasher.Sum(nil)
 
-	// Преобразование байтов хеша в строку
 	hashString := fmt.Sprintf("%x", hashInBytes)
 
 	return hashString
@@ -147,10 +144,11 @@ func CheckServer() {
 			var Serv Server
 			json.Unmarshal(dataByte, &Serv)
 
-			if time.Now().Sub(Serv.LastPing) >= (time.Minute * 5) {
+			if time.Now().Sub(Serv.LastPing) >= (time.Minute) {
 				Serv.Status = 2
 				serverToRedis(Serv)
 			}
 		}
+		time.Sleep(time.Second * 20)
 	}
 }

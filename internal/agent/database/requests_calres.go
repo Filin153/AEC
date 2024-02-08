@@ -57,3 +57,14 @@ func GetCalRes(id string) (models.CalRes, bool) {
 
 	return res, true
 }
+
+func GetAllCalRes() ([]models.CalRes, bool) {
+	res := []models.CalRes{}
+
+	if err := db.Find(&res).Error; err != nil {
+		config.Log.WithField("DB", "Не удалось найти значения").Warn(err)
+		return res, false
+	}
+
+	return res, true
+}

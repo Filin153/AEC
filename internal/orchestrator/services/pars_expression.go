@@ -112,8 +112,7 @@ func requestToCalculation(serv Server, subst string, add, sub, mult, div int) (m
 	return answer, nil
 }
 
-func takeCalRes(ids []string, val string) ([]string, string, int, string) {
-	needTime := 0
+func takeCalRes(ids []string, val string) ([]string, string, string) {
 	for {
 		if len(ids) == 0 {
 			break
@@ -121,11 +120,10 @@ func takeCalRes(ids []string, val string) ([]string, string, int, string) {
 		for i, vid := range ids {
 			if calRes, ok := database.GetCalRes(vid); ok && calRes.Res != "" {
 				if calRes.Err != "" {
-					return []string{}, "", 0, calRes.Err
+					return []string{}, "", calRes.Err
 				}
 				val = strings.Replace(val, calRes.Expression, calRes.Res, 1)
 				ids = removeFromSlice(ids, i)
-				needTime += calRes.ToDoTime
 				config.Log.WithFields(logrus.Fields{
 					"val":        val,
 					"Expression": calRes.Expression,
@@ -137,16 +135,41 @@ func takeCalRes(ids []string, val string) ([]string, string, int, string) {
 		time.Sleep(time.Second)
 	}
 
-	return ids, val, needTime, ""
+	return ids, val, ""
+}
+
+func makeTask(val string, ids []string) ([]string, []string, error) {
+	var allTask []string
+	var resT []string
+	var resId []string
+	for _, subexpression := range findSubexpressions(val) {
+		res, ok := keepSignBetweenNumbers(subexpression)
+		if ok != nil {
+			config.Log.Error(ok)
+			return []string{}, []string{}, ok
+		} else if res == "+" || res == "-" || res == "*" || res == "/" || res == "**" {
+			allTask = append(allTask, subexpression)
+			ids = append(ids, HashSome(subexpression))
+		} else {
+			resT, resId, ok = makeTask(subexpression, ids)
+			if ok != nil {
+				config.Log.Error(ok)
+				return []string{}, []string{}, ok
+			}
+			allTask = append(allTask, resT...)
+			ids = append(ids, resId...)
+		}
+	}
+
+	return allTask, ids, nil
 }
 
 func Direct(val, id string, add, sub, mult, div int) (string, error) {
 	tempVal := val
-	resTime := 0
 
 	if containsLetters(val) {
 		config.Log.WithField("ex", val).Error("Выражение содержит буквы")
-		go database.UpdateTask(id, "", "", false, "Выражение содержит буквы", 0)
+		go database.UpdateTask(id, "", "", false, "Выражение содержит буквы")
 		return "", errors.New("Выражение содержит буквы")
 	}
 
@@ -157,28 +180,53 @@ func Direct(val, id string, add, sub, mult, div int) (string, error) {
 	}
 
 	allId := []string{}
-	for _, subexpression := range findSubexpressions(val) {
-		go requestToCalculation(trueServ, subexpression, add, sub, mult, div)
-		allId = append(allId, HashSome(subexpression))
+
+	var errTake string
+	var allTask []string
+	for {
+		val, err = extractAllType(val)
+		if err != nil {
+			config.Log.Error(err)
+			return "", err
+		}
+
+		allTask, allId, err = makeTask(val, allId)
+
+		for _, v := range allTask {
+			go requestToCalculation(trueServ, v, add, sub, mult, div)
+		}
+
+		allId, val, errTake = takeCalRes(allId, val)
+		if errTake != "" {
+			go database.UpdateTask(id, "", "", false, errTake)
+			config.Log.Error(errTake)
+			return "", errors.New(errTake)
+		}
+
+		val, err = removeParenthesesAroundNumbers(val)
+		if err != nil {
+			config.Log.Error(err)
+			return "", err
+		}
+
+		res, ok := keepSignBetweenNumbers(val)
+		if ok != nil {
+			config.Log.Error(ok)
+			return "", ok
+		} else if res == "+" || res == "-" || res == "*" || res == "/" || res == "**" {
+			go requestToCalculation(trueServ, val, add, sub, mult, div)
+			allId = append(allId, HashSome(val))
+			_, val, errTake = takeCalRes(allId, val)
+			if errTake != "" {
+				go database.UpdateTask(id, "", "", false, errTake)
+				config.Log.Error(errTake)
+				return "", errors.New(errTake)
+			}
+			break
+		}
 	}
 
-	allId, val, resTime, err1 := takeCalRes(allId, val)
-	if err1 != "" {
-		go database.UpdateTask(id, "", "", false, err1, 0)
-		config.Log.Error(err1)
-		return "", errors.New(err1)
-	}
-	go requestToCalculation(trueServ, val, add, sub, mult, div)
-	allId = append(allId, HashSome(val))
-	_, val, tempTime, err1 := takeCalRes(allId, val)
-	if err1 != "" {
-		go database.UpdateTask(id, "", "", false, err1, 0)
-		config.Log.Error(err1)
-		return "", errors.New(err1)
-	}
-
-	resTime += tempTime
-	go database.UpdateTask(id, "", val, true, "", resTime)
+	go database.UpdateTask(id, "", val, true, "")
 
 	config.Log.Info("Готово - ", tempVal)
 	return val, nil
@@ -216,4 +264,89 @@ func GetWaitTime(val string, add, sub, mult, dev int) time.Duration {
 	res += strings.Count(val, "/") * dev
 
 	return time.Duration(res) * time.Second
+}
+
+// Функция для выделения частей математического выражения в скобки в порядке выполнения
+func extractMultAndDev(expression string) (string, error) {
+	// Используем регулярное выражение для поиска сумм и разностей
+	re := regexp.MustCompile(`(\d+)\s*[\*\/]\s*(\d+)`)
+	matches := re.FindAllString(expression, -1)
+
+	// Заменяем найденные суммы и разности на скобки
+	for _, match := range matches {
+		expression = strings.Replace(expression, match, "("+match+")", 1)
+	}
+
+	return expression, nil
+}
+
+// Функция для выделения частей математического выражения в скобки в порядке выполнения
+func extractAddAndSub(expression string) (string, error) {
+	// Используем регулярное выражение для поиска сумм и разностей
+	re := regexp.MustCompile(`(\d+)\s*[\+\-]\s*(\d+)`)
+	matches := re.FindAllString(expression, -1)
+
+	// Заменяем найденные суммы и разности на скобки
+	for _, match := range matches {
+		expression = strings.Replace(expression, match, "("+match+")", 1)
+	}
+
+	return expression, nil
+}
+
+// Функция для выделения частей математического выражения в скобки в порядке выполнения
+func extractDegree(expression string) (string, error) {
+	// Используем регулярное выражение для поиска степеней
+	re := regexp.MustCompile(`(\d+)\s*\*\*\s*(\d+)`)
+	matches := re.FindAllString(expression, -1)
+
+	// Заменяем найденные степени на скобки
+	for _, match := range matches {
+		expression = strings.Replace(expression, match, "("+match+")", 1)
+	}
+
+	return expression, nil
+}
+
+func extractAllType(expression string) (string, error) {
+	expression, err := extractDegree(expression)
+	if err != nil {
+		return "", err
+	}
+	expression, err = extractMultAndDev(expression)
+	if err != nil {
+		return "", err
+	}
+	expression, err = extractAddAndSub(expression)
+	if err != nil {
+		return "", err
+	}
+
+	return expression, nil
+}
+
+// Функция для удаления скобок вокруг чисел
+func removeParenthesesAroundNumbers(expression string) (string, error) {
+	// Используем регулярное выражение для поиска скобок вокруг чисел
+	re := regexp.MustCompile(`\((\-?\d+)\)`)
+	matches := re.FindAllStringSubmatch(expression, -1)
+
+	// Удаляем найденные скобки вокруг чисел
+	for _, match := range matches {
+		expression = strings.Replace(expression, match[0], match[1], 1)
+	}
+
+	return expression, nil
+}
+
+// Функция для удаления всего, кроме знака между двумя числами
+func keepSignBetweenNumbers(expression string) (string, error) {
+	// Используем регулярное выражение для замены всего, кроме знаков между числами
+	re := regexp.MustCompile(`-?\d+(\.\d+)?`)
+	res := re.ReplaceAllString(expression, "$2")
+
+	re = regexp.MustCompile(`[()]`)
+	res = re.ReplaceAllString(res, "")
+
+	return strings.Replace(res, " ", "", -1), nil
 }

@@ -37,12 +37,13 @@ func Calc(w http.ResponseWriter, r *http.Request) {
 	sub, _ := strconv.Atoi(fmt.Sprintf("%v", data["sub_time"]))
 	mult, _ := strconv.Atoi(fmt.Sprintf("%v", data["mult_time"]))
 	dev, _ := strconv.Atoi(fmt.Sprintf("%v", data["dev_time"]))
+	waitTime := services.GetWaitTime(data["task"], add, sub, mult, dev)
 
 	if _, ok := database.GetTask(reqId); !ok {
 		go services.Direct(data["task"], reqId, add, sub, mult, dev)
-		go database.AddTask(data["task"], reqId, userId)
+		go database.AddTask(data["task"], reqId, userId, int(waitTime.Seconds()))
 	} else {
-		go database.UpdateTask(reqId, userId, "", false, "", -1)
+		go database.UpdateTask(reqId, userId, "", false, "")
 	}
 
 	a.Data = map[string]string{

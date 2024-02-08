@@ -6,7 +6,9 @@ import (
 	"AEC/internal/agent/services"
 	"context"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
+	"strconv"
 )
 
 func AddCal(w http.ResponseWriter, r *http.Request) {
@@ -35,4 +37,12 @@ func AddCal(w http.ResponseWriter, r *http.Request) {
 		}
 		config.Log.Info("Add task - " + data.Task)
 	}
+}
+
+func AddWorkers(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	maxAdd := vars["add"]
+	val, _ := strconv.Atoi(maxAdd)
+	go services.StartWorkers(val, config.TaskChan)
+	config.Log.Info("Add workers - " + maxAdd)
 }

@@ -8,14 +8,14 @@ import (
 	"slices"
 )
 
-func AddTask(ex, req_id, user_id string) {
+func AddTask(ex, req_id, user_id string, time int) {
 	task := models.Task{
 		Model:      gorm.Model{},
 		Expression: ex,
 		Req_id:     req_id,
 		User_id:    user_id,
 		Status:     false,
-		ToDoTime:   0,
+		ToDoTime:   time,
 		Res:        "",
 		Err:        "",
 	}
@@ -26,15 +26,11 @@ func AddTask(ex, req_id, user_id string) {
 	}
 }
 
-func UpdateTask(reqId, user_id, res string, status bool, err string, time int) {
+func UpdateTask(reqId, user_id, res string, status bool, err string) {
 	var task models.Task
 	if err := db.First(&task, "req_id = ?", reqId).Error; err != nil {
 		config.Log.Error(err)
 		return
-	}
-
-	if time > 0 {
-		task.ToDoTime = time
 	}
 
 	if status != false {

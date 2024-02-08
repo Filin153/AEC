@@ -24,6 +24,7 @@ type config struct {
 }
 
 var Conf config
+var TaskChan = make(chan []byte)
 
 func init() {
 	relativePath := "internal/agent/config/.env"

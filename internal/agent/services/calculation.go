@@ -36,7 +36,6 @@ func StartWorkers(max int, task chan []byte) {
 					config.Log.Error(err)
 				}
 
-				config.Log.Debug(data.WaitTime)
 				time.Sleep(data.WaitTime)
 				go database.UpdateCalRes(fmt.Sprintf("%v", data.Id), calRes.Ex, calRes.Answer, calRes.Err)
 
@@ -75,7 +74,6 @@ func AddTask(task chan []byte) {
 				continue
 			}
 
-			config.Log.Debug()
 			task <- jsonByte
 			err = config.RedisClientQ.Del(context.Background(), key).Err()
 			if err != nil {
@@ -106,4 +104,25 @@ func calculation(data string) (AnswerData, error) {
 	a.Answer = fmt.Sprintf("%v", result)
 
 	return a, nil
+}
+
+func CheckNoReadyEx(task chan []byte) {
+	var jsonData = &JSONdata{}
+	if data, ok := database.GetAllCalRes(); ok {
+		for _, v := range data {
+			if v.Res == "" && v.Err == "" {
+				jsonData.Id = v.RId
+				jsonData.Task = v.Expression
+				jsonData.WaitTime = time.Second * time.Duration(v.ToDoTime)
+
+				jsonByte, err := json.Marshal(jsonData)
+				if err != nil {
+					config.Log.Error(err)
+					continue
+				}
+
+				task <- jsonByte
+			}
+		}
+	}
 }
