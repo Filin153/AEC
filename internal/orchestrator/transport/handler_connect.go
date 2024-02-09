@@ -10,14 +10,14 @@ import (
 	"net/http"
 )
 
-type answer struct {
+type Answer struct {
 	Err  error       `json:"err"`
 	Data interface{} `json:"data"`
 	Info string      `json:"info"`
 }
 
 func Connect(w http.ResponseWriter, r *http.Request) {
-	a := answer{}
+	a := Answer{}
 
 	fromURL := services.GetClientIP(r)
 	if fromURL == "" {
@@ -44,7 +44,7 @@ func Connect(w http.ResponseWriter, r *http.Request) {
 func AllServ(w http.ResponseWriter, r *http.Request) {
 	res := services.AllServer()
 
-	a := answer{
+	a := Answer{
 		Err:  nil,
 		Data: res,
 	}
@@ -54,7 +54,7 @@ func AllServ(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteServer(w http.ResponseWriter, r *http.Request) {
-	a := answer{}
+	a := Answer{}
 
 	vars := mux.Vars(r)
 	servId, ok := vars["id"]
@@ -67,7 +67,16 @@ func DeleteServer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	a.Data = servId
+	info := config.RedisClient.Get(context.Background(), servId)
+	if info.Err() != nil || info.Val() == "" {
+		config.Log.WithField("err", "Не удалось найти сервер").Error(info.Err())
+		w.WriteHeader(400)
+		a.Err = info.Err()
+		a.Info = "Не удалось найти сервер"
+		data, _ := json.Marshal(a)
+		w.Write(data)
+		return
+	}
 
 	err := services.RemoveServerFromRedis(servId)
 	if err != nil {
@@ -80,6 +89,7 @@ func DeleteServer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	a.Data = servId
 	a.Info = "Successful delete"
 
 	data, _ := json.Marshal(a)
@@ -87,7 +97,7 @@ func DeleteServer(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddWorkerFor(w http.ResponseWriter, r *http.Request) {
-	a := answer{}
+	a := Answer{}
 	var serv services.Server
 
 	vars := mux.Vars(r)

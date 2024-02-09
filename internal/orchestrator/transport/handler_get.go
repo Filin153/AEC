@@ -9,7 +9,7 @@ import (
 )
 
 func GetOneTask(w http.ResponseWriter, r *http.Request) {
-	var a answer
+	var a Answer
 
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
@@ -37,7 +37,7 @@ func GetOneTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllTaskFromUser(w http.ResponseWriter, r *http.Request) {
-	var a answer
+	var a Answer
 
 	vars := mux.Vars(r)
 	id, ok := vars["id"]

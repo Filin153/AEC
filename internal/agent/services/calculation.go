@@ -26,6 +26,7 @@ type JSONdata struct {
 func StartWorkers(max int, task chan []byte) {
 	for i := 0; i < max; i++ {
 		go func() {
+			config.Log.Info("Worker start")
 			var data = &JSONdata{}
 			for v := range task {
 				json.Unmarshal(v, data)

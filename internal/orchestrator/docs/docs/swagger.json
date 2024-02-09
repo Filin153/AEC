@@ -1,0 +1,159 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Сервис для параллельного вычисления арифметических выражений",
+        "title": "Вычислитель арифметических выражений(AEC)",
+        "termsOfService": "https://t.me/GusGus153",
+        "contact": {
+            "name": "Goose",
+            "url": "https://t.me/GusGus153"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/": {
+            "post": {
+                "description": "Add one task",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Task"
+                ],
+                "summary": "AddTask",
+                "parameters": [
+                    {
+                        "description": "Request body in JSON format",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docs.TaskType"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/server/add/{id}/{add}": {
+            "post": {
+                "description": "Add some worker",
+                "tags": [
+                    "Server"
+                ],
+                "summary": "AddWorker",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "workers",
+                        "name": "add",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/server/all": {
+            "get": {
+                "description": "Get all server",
+                "tags": [
+                    "Server"
+                ],
+                "summary": "AllServer",
+                "responses": {}
+            }
+        },
+        "/server/del/{id}": {
+            "delete": {
+                "description": "Delete one server",
+                "tags": [
+                    "Server"
+                ],
+                "summary": "DeleteServer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/task/{id}": {
+            "get": {
+                "description": "Get one task",
+                "tags": [
+                    "Task"
+                ],
+                "summary": "GetTask",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "description": "Get info about user",
+                "tags": [
+                    "User"
+                ],
+                "summary": "GetUser",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "docs.TaskType": {
+            "type": "object",
+            "properties": {
+                "add_time": {
+                    "type": "string"
+                },
+                "dev_time": {
+                    "type": "string"
+                },
+                "mult_time": {
+                    "type": "string"
+                },
+                "sub_time": {
+                    "type": "string"
+                },
+                "task": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

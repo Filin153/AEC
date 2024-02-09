@@ -2,6 +2,7 @@ package app
 
 import (
 	"AEC/internal/orchestrator/config"
+	"AEC/internal/orchestrator/docs"
 	"AEC/internal/orchestrator/services"
 	"AEC/internal/orchestrator/transport"
 	"fmt"
@@ -12,6 +13,7 @@ import (
 func Run() {
 	defer config.RedisClient.Close()
 
+	go docs.Swag()
 	go services.CheckServer()
 
 	router := mux.NewRouter()

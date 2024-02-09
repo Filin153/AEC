@@ -10,9 +10,18 @@ import (
 	"time"
 )
 
+type TaskType struct {
+	Task     string `json:"task"`
+	UserId   string `json:"user_id"`
+	AddTime  string `json:"add_time"`
+	SubTime  string `json:"sub_time"`
+	MultTime string `json:"mult_time"`
+	DevTime  string `json:"dev_time"`
+}
+
 func Calc(w http.ResponseWriter, r *http.Request) {
-	a := answer{}
-	var data map[string]string
+	a := Answer{}
+	var data TaskType
 
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
@@ -25,23 +34,23 @@ func Calc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var userId string
-	reqId := services.HashSome(data["task"])
+	reqId := services.HashSome(data.Task)
 
-	if data["user_id"] == "" {
+	if data.UserId == "" {
 		userId = services.HashSome(time.Now().String())
 	} else {
-		userId = data["user_id"]
+		userId = data.UserId
 	}
 
-	add, _ := strconv.Atoi(fmt.Sprintf("%v", data["add_time"]))
-	sub, _ := strconv.Atoi(fmt.Sprintf("%v", data["sub_time"]))
-	mult, _ := strconv.Atoi(fmt.Sprintf("%v", data["mult_time"]))
-	dev, _ := strconv.Atoi(fmt.Sprintf("%v", data["dev_time"]))
-	waitTime := services.GetWaitTime(data["task"], add, sub, mult, dev)
+	add, _ := strconv.Atoi(fmt.Sprintf("%v", data.AddTime))
+	sub, _ := strconv.Atoi(fmt.Sprintf("%v", data.SubTime))
+	mult, _ := strconv.Atoi(fmt.Sprintf("%v", data.MultTime))
+	dev, _ := strconv.Atoi(fmt.Sprintf("%v", data.DevTime))
+	waitTime := services.GetWaitTime(data.Task, add, sub, mult, dev)
 
 	if _, ok := database.GetTask(reqId); !ok {
-		go services.Direct(data["task"], reqId, add, sub, mult, dev)
-		go database.AddTask(data["task"], reqId, userId, int(waitTime.Seconds()))
+		go services.Direct(data.Task, reqId, add, sub, mult, dev)
+		go database.AddTask(data.Task, reqId, userId, int(waitTime.Seconds()))
 	} else {
 		go database.UpdateTask(reqId, userId, "", false, "")
 	}

@@ -1,0 +1,108 @@
+basePath: /
+definitions:
+  docs.TaskType:
+    properties:
+      add_time:
+        type: string
+      dev_time:
+        type: string
+      mult_time:
+        type: string
+      sub_time:
+        type: string
+      task:
+        type: string
+      user_id:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Goose
+    url: https://t.me/GusGus153
+  description: Сервис для параллельного вычисления арифметических выражений
+  termsOfService: https://t.me/GusGus153
+  title: Вычислитель арифметических выражений(AEC)
+  version: "1.0"
+paths:
+  /:
+    post:
+      consumes:
+      - application/json
+      description: Add one task
+      parameters:
+      - description: Request body in JSON format
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/docs.TaskType'
+      responses: {}
+      summary: AddTask
+      tags:
+      - Task
+  /server/add/{id}/{add}:
+    post:
+      description: Add some worker
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: workers
+        in: path
+        name: add
+        required: true
+        type: string
+      responses: {}
+      summary: AddWorker
+      tags:
+      - Server
+  /server/all:
+    get:
+      description: Get all server
+      responses: {}
+      summary: AllServer
+      tags:
+      - Server
+  /server/del/{id}:
+    delete:
+      description: Delete one server
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: DeleteServer
+      tags:
+      - Server
+  /task/{id}:
+    get:
+      description: Get one task
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: GetTask
+      tags:
+      - Task
+  /user/{id}:
+    get:
+      description: Get info about user
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: GetUser
+      tags:
+      - User
+swagger: "2.0"
