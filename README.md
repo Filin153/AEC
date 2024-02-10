@@ -16,6 +16,7 @@
     docker-compose up -d
 
 # Swagger схема
+Может сразу не загрузится нужно чуть подождать(просто ребутать страницу по кд)
     http://localhost:8080/swagger/index.html
 
 ### Task
