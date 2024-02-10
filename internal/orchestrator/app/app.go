@@ -15,6 +15,7 @@ func Run() {
 
 	go docs.Swag()
 	go services.CheckServer()
+	go services.CheckNoReadyEx()
 
 	router := mux.NewRouter()
 

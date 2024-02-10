@@ -222,14 +222,15 @@ func Direct(val, id string, add, sub, mult, div int) (string, error) {
 				config.Log.Error(errTake)
 				return "", errors.New(errTake)
 			}
-			break
+			go database.UpdateTask(id, "", val, true, "")
+			config.Log.Info("Готово - ", tempVal)
+			return val, nil
+		} else if res == "" || strings.Replace(res, "*", "", 1) == "-e" || strings.Replace(res, "*", "", 1) == "e" || strings.Replace(res, "*", "", 1) == "e-" || strings.Replace(res, "*", "", 1) == "+e" || strings.Replace(res, "*", "", 1) == "e+" {
+			go database.UpdateTask(id, "", val, true, "")
+			config.Log.Info("Готово - ", tempVal)
+			return val, nil
 		}
 	}
-
-	go database.UpdateTask(id, "", val, true, "")
-
-	config.Log.Info("Готово - ", tempVal)
-	return val, nil
 }
 
 func findSubexpressions(expression string) []string {
@@ -349,4 +350,15 @@ func keepSignBetweenNumbers(expression string) (string, error) {
 	res = re.ReplaceAllString(res, "")
 
 	return strings.Replace(res, " ", "", -1), nil
+}
+
+func CheckNoReadyEx() {
+	if data, ok := database.GetAllTask(); ok {
+		for _, v := range data {
+			if v.Res == "" && v.Err == "" {
+				config.Log.Info("Начата обработка не завершённой зодачий - " + v.Expression)
+				go Direct(v.Expression, v.Req_id, 0, 0, 0, 0)
+			}
+		}
+	}
 }

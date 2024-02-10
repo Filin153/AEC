@@ -79,12 +79,11 @@ func GetAllUserTask(user_id string) ([]models.Task, bool) {
 	return tasks, true
 }
 
-//func FindUser(user_id string) bool {
-//	var task models.Task
-//	db.Model(&models.Task{}).Where("user_id = ?", user_id).First(&task)
-//	if task.User_id != "" {
-//		return true
-//	}
-//
-//	return false
-//}
+func GetAllTask() ([]models.Task, bool) {
+	var task []models.Task
+	if err := db.Find(&task).Error; err != nil {
+		config.Log.WithField("DB", "Не удалось найти значение").Warn(err)
+		return task, false
+	}
+	return task, true
+}
