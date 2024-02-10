@@ -42,5 +42,5 @@
 # Схема работы
 https://miro.com/app/board/uXjVNvvRUYI=/?share_link_id=807062704044
 
-![alt text](https://github.com/Filin153/AEC/blob/[branch]/img/img.png?raw=true)
+![alt text](https://github.com/Filin153/AEC/blob/53afb900471c2873244030c3ac235a7fccbc1ba4/img/img.png?raw=true)
     
