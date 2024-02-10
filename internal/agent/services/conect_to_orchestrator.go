@@ -29,6 +29,6 @@ func PING(urls []string, path, ihost string) {
 			resp.Body.Close()
 		}
 
-		time.Sleep(time.Second * 10)
+		time.Sleep(time.Second * 30)
 	}
 }
