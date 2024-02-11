@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Говорит оркестратору, что сервер агент доступенн
 func PING(urls []string, path, ihost string) {
 	for {
 		for _, url := range urls {

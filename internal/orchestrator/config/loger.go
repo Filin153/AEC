@@ -7,6 +7,7 @@ import (
 
 var Log = logrus.New()
 
+// Создает логер
 func init() {
 	Log.SetLevel(logrus.DebugLevel)
 

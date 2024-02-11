@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Добавляет выполянемое задание в БД
 func AddCalRes(id, ex string, time int) {
 	res := models.CalRes{
 		Model:      gorm.Model{},
@@ -22,6 +23,7 @@ func AddCalRes(id, ex string, time int) {
 	}
 }
 
+// Обновляет данные о задании
 func UpdateCalRes(id, ex, res, err string) {
 	calRes := models.CalRes{}
 
@@ -47,6 +49,7 @@ func UpdateCalRes(id, ex, res, err string) {
 
 }
 
+// Выдает выражение по ID
 func GetCalRes(id string) (models.CalRes, bool) {
 	res := models.CalRes{}
 
@@ -58,6 +61,7 @@ func GetCalRes(id string) (models.CalRes, bool) {
 	return res, true
 }
 
+// Выдает все выражения
 func GetAllCalRes() ([]models.CalRes, bool) {
 	res := []models.CalRes{}
 

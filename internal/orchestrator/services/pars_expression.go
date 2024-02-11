@@ -22,6 +22,7 @@ type dataForReq struct {
 	WaitTime time.Duration `json:"wait_time"`
 }
 
+// Перемешивает слайс
 func shuffleSlice(input []string) {
 	rand.Seed(time.Now().UnixNano()) // Инициализация генератора случайных чисел с текущим временем
 
@@ -35,11 +36,13 @@ func shuffleSlice(input []string) {
 	}
 }
 
+// Проверка на содержание букв
 func containsLetters(input string) bool {
 	re := regexp.MustCompile("[a-zA-Z]")
 	return re.MatchString(input)
 }
 
+// Удаление объекта из салйса по его ID
 func removeFromSlice(sl []string, id int) []string {
 	if id >= 0 && id < len(sl) {
 		sl = append(sl[:id], sl[id+1:]...)
@@ -49,6 +52,7 @@ func removeFromSlice(sl []string, id int) []string {
 	return sl
 }
 
+// Выдает рандомный сервер(агент)
 func getRandomServer() (Server, error) {
 	keys, err := config.RedisClient.Keys(context.Background(), "*").Result()
 	if err != nil {
@@ -74,6 +78,7 @@ func getRandomServer() (Server, error) {
 	return Server{}, errors.New("Нету доступных серверов")
 }
 
+// Отправляет к серверу(агенту) запрос на выполнение
 func requestToCalculation(serv Server, subst string, add, sub, mult, div int) (map[string]interface{}, error) {
 	var data dataForReq
 
@@ -112,6 +117,7 @@ func requestToCalculation(serv Server, subst string, add, sub, mult, div int) (m
 	return answer, nil
 }
 
+// Забирает результаты из БД и меняет структуру выражения
 func takeCalRes(ids []string, val string) ([]string, string, string) {
 	for {
 		if len(ids) == 0 {
@@ -138,6 +144,7 @@ func takeCalRes(ids []string, val string) ([]string, string, string) {
 	return ids, val, ""
 }
 
+// Выбирает подвыражения из выражения
 func makeTask(val string, ids []string) ([]string, []string, error) {
 	var allTask []string
 	var resT []string
@@ -164,6 +171,7 @@ func makeTask(val string, ids []string) ([]string, []string, error) {
 	return allTask, ids, nil
 }
 
+// Обрабатывает выражение
 func Direct(val, id string, add, sub, mult, div int) (string, error) {
 	tempVal := val
 
@@ -233,6 +241,7 @@ func Direct(val, id string, add, sub, mult, div int) (string, error) {
 	}
 }
 
+// Ищет подвыражения в скобках
 func findSubexpressions(expression string) []string {
 	var subexpressions []string
 	stack := 0
@@ -257,6 +266,7 @@ func findSubexpressions(expression string) []string {
 	return subexpressions
 }
 
+// Выдет время ожидания для выражения
 func GetWaitTime(val string, add, sub, mult, dev int) time.Duration {
 	res := 0
 	res += strings.Count(val, "+") * add
@@ -267,7 +277,7 @@ func GetWaitTime(val string, add, sub, mult, dev int) time.Duration {
 	return time.Duration(res) * time.Second
 }
 
-// Функция для выделения частей математического выражения в скобки в порядке выполнения
+// Функция для выделения частей математического выражения в скобки в порядке выполнения (умножение, деление)
 func extractMultAndDev(expression string) (string, error) {
 	// Используем регулярное выражение для поиска сумм и разностей
 	re := regexp.MustCompile(`(\d+)\s*[\*\/]\s*(\d+)`)
@@ -281,7 +291,7 @@ func extractMultAndDev(expression string) (string, error) {
 	return expression, nil
 }
 
-// Функция для выделения частей математического выражения в скобки в порядке выполнения
+// Функция для выделения частей математического выражения в скобки в порядке выполнения (сложение, вычитание)
 func extractAddAndSub(expression string) (string, error) {
 	// Используем регулярное выражение для поиска сумм и разностей
 	re := regexp.MustCompile(`(\d+)\s*[\+\-]\s*(\d+)`)
@@ -295,7 +305,7 @@ func extractAddAndSub(expression string) (string, error) {
 	return expression, nil
 }
 
-// Функция для выделения частей математического выражения в скобки в порядке выполнения
+// Функция для выделения частей математического выражения в скобки в порядке выполнения (степень)
 func extractDegree(expression string) (string, error) {
 	// Используем регулярное выражение для поиска степеней
 	re := regexp.MustCompile(`(\d+)\s*\*\*\s*(\d+)`)
@@ -309,6 +319,7 @@ func extractDegree(expression string) (string, error) {
 	return expression, nil
 }
 
+// Выделяет все части мат выражения
 func extractAllType(expression string) (string, error) {
 	expression, err := extractDegree(expression)
 	if err != nil {
@@ -352,6 +363,7 @@ func keepSignBetweenNumbers(expression string) (string, error) {
 	return strings.Replace(res, " ", "", -1), nil
 }
 
+// Проверяет какие задание не выполнены и запускает их выполнение (Запускается при запуске)
 func CheckNoReadyEx() {
 	if data, ok := database.GetAllTask(); ok {
 		for _, v := range data {

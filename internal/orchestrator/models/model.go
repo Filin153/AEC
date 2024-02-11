@@ -16,10 +16,12 @@ type Task struct {
 	Err        string `gorm:"type:string"`
 }
 
+// Переводит строку в слайс
 func (t *Task) GetUserIDs() []string {
 	return strings.Split(t.User_id, ",")
 }
 
+// Переводит слайс в строку
 func (t *Task) SetUserIDs(userIDs []string) {
 	t.User_id = strings.Join(userIDs, ",")
 }

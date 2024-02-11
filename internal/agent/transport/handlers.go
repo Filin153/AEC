@@ -11,6 +11,7 @@ import (
 	"strconv"
 )
 
+// Добавление задания
 func AddCal(w http.ResponseWriter, r *http.Request) {
 	data := &services.JSONdata{}
 	err := json.NewDecoder(r.Body).Decode(data)
@@ -39,6 +40,7 @@ func AddCal(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Добавление воркера
 func AddWorkers(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	maxAdd := vars["add"]

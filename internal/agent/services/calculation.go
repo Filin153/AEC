@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Knetic/govaluate"
-	"strings"
 	"time"
 )
 
@@ -23,6 +22,7 @@ type JSONdata struct {
 	WaitTime time.Duration `json:"wait_time"`
 }
 
+// Запускает горутины(воркеры)
 func StartWorkers(max int, task chan []byte) {
 	for i := 0; i < max; i++ {
 		go func() {
@@ -45,16 +45,7 @@ func StartWorkers(max int, task chan []byte) {
 	}
 }
 
-func GetWaitTime(val string, add, sub, mult, dev int) time.Duration {
-	res := 0
-	res += strings.Count(val, "+") * add
-	res += strings.Count(val, "-") * sub
-	res += strings.Count(val, "*") * mult
-	res += strings.Count(val, "/") * dev
-
-	return time.Duration(res) * time.Second
-}
-
+// Добавляет задание для ворекров которые были созданы в StartWorkers
 func AddTask(task chan []byte) {
 	for {
 		keys, err := config.RedisClientQ.Keys(context.Background(), "*").Result()
@@ -85,6 +76,7 @@ func AddTask(task chan []byte) {
 	}
 }
 
+// Вычисляет выражение
 func calculation(data string) (AnswerData, error) {
 	a := AnswerData{}
 	expression, err := govaluate.NewEvaluableExpression(data)
@@ -107,6 +99,7 @@ func calculation(data string) (AnswerData, error) {
 	return a, nil
 }
 
+// Проверяет какие задание не выполнены и запускает их выполнение (Запускается при запуске агента)
 func CheckNoReadyEx(task chan []byte) {
 	var jsonData = &JSONdata{}
 	if data, ok := database.GetAllCalRes(); ok {

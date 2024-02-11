@@ -18,6 +18,7 @@ type Server struct {
 	LastPing time.Time `json:"last_ping"`
 }
 
+// Засовывает сервер(агент) в Redis
 func serverToRedis(s Server) error {
 	data, err := json.Marshal(s)
 	if err != nil {
@@ -32,6 +33,7 @@ func serverToRedis(s Server) error {
 	return nil
 }
 
+// Удаляет сервер(агент) из Redis
 func RemoveServerFromRedis(id string) error {
 	_, err := config.RedisClient.Del(context.Background(), id).Result()
 	if err != nil {
@@ -42,6 +44,7 @@ func RemoveServerFromRedis(id string) error {
 	return nil
 }
 
+// Создает хэш значения
 func HashSome(val string) string {
 	utf8Encoder := unicode.UTF8.NewEncoder()
 
@@ -56,6 +59,7 @@ func HashSome(val string) string {
 	return hashString
 }
 
+// Получает IP из запроса
 func GetClientIP(r *http.Request) string {
 	ip := r.Header.Get("X-Forwarded-For")
 	if ip != "" {
@@ -64,6 +68,7 @@ func GetClientIP(r *http.Request) string {
 	return ""
 }
 
+// Добавляет или обновляет подключение сервера(агента)
 func AddServer(id, URL string) error {
 
 	info := config.RedisClient.Get(context.Background(), id)
@@ -104,6 +109,7 @@ func AddServer(id, URL string) error {
 	return nil
 }
 
+// Выдает все сервера(агенты)
 func AllServer() []Server {
 	keys, err := config.RedisClient.Keys(context.Background(), "*").Result()
 	if err != nil {
@@ -128,6 +134,7 @@ func AllServer() []Server {
 	return allS
 }
 
+// Проверяет последнее подключение к серверу(агенту)
 func CheckServer() {
 	for {
 		keys, err := config.RedisClient.Keys(context.Background(), "*").Result()

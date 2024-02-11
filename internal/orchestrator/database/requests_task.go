@@ -8,6 +8,7 @@ import (
 	"slices"
 )
 
+// Добавляет задание в БД
 func AddTask(ex, req_id, user_id string, time int) {
 	task := models.Task{
 		Model:      gorm.Model{},
@@ -26,6 +27,7 @@ func AddTask(ex, req_id, user_id string, time int) {
 	}
 }
 
+// Обновляют данные в задание
 func UpdateTask(reqId, user_id, res string, status bool, err string) {
 	var task models.Task
 	if err := db.First(&task, "req_id = ?", reqId).Error; err != nil {
@@ -60,6 +62,7 @@ func UpdateTask(reqId, user_id, res string, status bool, err string) {
 
 }
 
+// Выдает задание по ID
 func GetTask(reqId string) (models.Task, bool) {
 	var task models.Task
 	if err := db.First(&task, "req_id = ?", reqId).Error; err != nil {
@@ -69,6 +72,7 @@ func GetTask(reqId string) (models.Task, bool) {
 	return task, true
 }
 
+// Выдает все задания пользователя
 func GetAllUserTask(user_id string) ([]models.Task, bool) {
 	var tasks []models.Task
 	err := db.Model(&models.Task{}).Where("user_id LIKE ?", fmt.Sprintf("%%%s%%", user_id)).Find(&tasks).Error
@@ -79,6 +83,7 @@ func GetAllUserTask(user_id string) ([]models.Task, bool) {
 	return tasks, true
 }
 
+// Выдает все задания
 func GetAllTask() ([]models.Task, bool) {
 	var task []models.Task
 	if err := db.Find(&task).Error; err != nil {

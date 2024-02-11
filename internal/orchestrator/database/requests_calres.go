@@ -3,24 +3,9 @@ package database
 import (
 	"AEC/internal/orchestrator/config"
 	"AEC/internal/orchestrator/models"
-	"gorm.io/gorm"
 )
 
-func AddCalRes(id, ex string) {
-	res := models.CalRes{
-		Model:      gorm.Model{},
-		RId:        id,
-		Expression: ex,
-		Res:        "",
-		Err:        "",
-	}
-
-	info := db.Create(&res)
-	if info.Error != nil {
-		config.Log.Warn(info.Error)
-	}
-}
-
+// Выдает выражение по ID
 func GetCalRes(id string) (models.CalRes, bool) {
 	res := models.CalRes{}
 

@@ -19,6 +19,7 @@ type config struct {
 
 var Conf config
 
+// Создает структуру config
 func init() {
 	relativePath := "internal/orchestrator/config/.env"
 	currentDir, err := filepath.Abs(".")

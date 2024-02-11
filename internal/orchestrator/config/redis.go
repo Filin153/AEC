@@ -7,6 +7,7 @@ import (
 
 var RedisClient = redis.NewClient(&redis.Options{})
 
+// Создает подключение к Redis
 func init() {
 
 	var RedisURL = Conf.Redis_host + ":" + Conf.Redis_port

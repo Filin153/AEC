@@ -26,6 +26,7 @@ type config struct {
 var Conf config
 var TaskChan = make(chan []byte)
 
+// Создает структуру config
 func init() {
 	relativePath := "internal/agent/config/.env"
 	currentDir, err := filepath.Abs(".")

@@ -10,6 +10,8 @@ import (
 
 var db *gorm.DB
 
+// Подключается к БД
+// Делает миграции
 func init() {
 
 	dbUrl := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", config.Conf.DbHost, config.Conf.DbUsername, config.Conf.DbName, config.Conf.DbPassword)
