@@ -79,8 +79,24 @@ func getRandomServer() (Server, error) {
 }
 
 // Отправляет к серверу(агенту) запрос на выполнение
-func requestToCalculation(serv Server, subst string, add, sub, mult, div int) (map[string]interface{}, error) {
+func requestToCalculation(subst string, add, sub, mult, div int) (map[string]interface{}, error) {
 	var data dataForReq
+	var trueServ Server
+	var err error
+
+	for {
+		trueServ, err = getRandomServer()
+		if err != nil {
+			config.Log.Error(err)
+			time.Sleep(time.Second * 1)
+			continue
+		} else if trueServ.URL == "" {
+			config.Log.Warn("Empty server URL")
+			time.Sleep(time.Second * 1)
+			continue
+		}
+		break
+	}
 
 	data.Id = HashSome(subst)
 	data.Task = subst
@@ -92,7 +108,7 @@ func requestToCalculation(serv Server, subst string, add, sub, mult, div int) (m
 		return map[string]interface{}{}, err
 	}
 
-	req, err := http.NewRequest("POST", serv.URL, bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("POST", trueServ.URL, bytes.NewBuffer(jsonData))
 	if err != nil {
 		config.Log.Error(err)
 		return map[string]interface{}{}, err
@@ -181,18 +197,12 @@ func Direct(val, id string, add, sub, mult, div int) (string, error) {
 		return "", errors.New("Выражение содержит буквы")
 	}
 
-	trueServ, err := getRandomServer()
-	if err != nil {
-		config.Log.Error(err)
-		return "", err
-	}
-
 	allId := []string{}
 
 	var errTake string
 	var allTask []string
 	for {
-		val, err = extractAllType(val)
+		val, err := extractAllType(val)
 		if err != nil {
 			config.Log.Error(err)
 			return "", err
@@ -201,7 +211,7 @@ func Direct(val, id string, add, sub, mult, div int) (string, error) {
 		allTask, allId, err = makeTask(val, allId)
 
 		for _, v := range allTask {
-			go requestToCalculation(trueServ, v, add, sub, mult, div)
+			go requestToCalculation(v, add, sub, mult, div)
 		}
 
 		allId, val, errTake = takeCalRes(allId, val)
@@ -222,7 +232,7 @@ func Direct(val, id string, add, sub, mult, div int) (string, error) {
 			config.Log.Error(ok)
 			return "", ok
 		} else if res == "+" || res == "-" || res == "*" || res == "/" || res == "**" {
-			go requestToCalculation(trueServ, val, add, sub, mult, div)
+			go requestToCalculation(val, add, sub, mult, div)
 			allId = append(allId, HashSome(val))
 			_, val, errTake = takeCalRes(allId, val)
 			if errTake != "" {

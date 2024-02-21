@@ -1,14 +1,30 @@
 version: "3"
 
 services:
-  agent:
-    container_name: agent
+  agent_one:
+    container_name: agent_one
     restart: always
     build: .
     networks:
       - aec_networks
+    environment:
+      - i_host=http://agent_one:8888/
+      - port=8888
     ports:
       - 8888:8888
+    command: [ "go", "run", "./cmd/agent/main.go" ]
+
+  agent_two:
+    container_name: agent_two
+    restart: always
+    build: .
+    networks:
+      - aec_networks
+    environment:
+      - i_host=http://agent_two:2222/
+      - port=2222
+    ports:
+      - 2222:2222
     command: [ "go", "run", "./cmd/agent/main.go" ]
 
 
